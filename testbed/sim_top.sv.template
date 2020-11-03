@@ -1,0 +1,48 @@
+`timescale 1 ns / 1 ps
+
+module sim_top();
+
+parameter PU_WIDTH = $(TB_PU_WIDTH);
+parameter NUM_PORT = $(TB_NUM_PORT);
+
+logic clk, dutNrst;
+initial begin
+    clk = 1'b0; dutNrst = 1'b0;
+    #1 dutNrst = 1'b1;
+end
+always #5 clk = ~clk;
+
+logic [PU_WIDTH*8-1:0] pu_dutin_data_d [NUM_PORT-1:0];
+logic pu_dutin_data_v [NUM_PORT-1:0];
+logic pu_dutin_data_r [NUM_PORT-1:0];
+logic [7:0] pu_dutin_flags_d [NUM_PORT-1:0];
+logic pu_dutin_flags_v [NUM_PORT-1:0];
+logic pu_dutin_flags_r [NUM_PORT-1:0];
+logic [PU_WIDTH-1:0] pu_dutin_eop_d [NUM_PORT-1:0];
+logic pu_dutin_eop_v [NUM_PORT-1:0];
+logic pu_dutin_eop_r [NUM_PORT-1:0];
+logic [PU_WIDTH*8-1:0] pu_dutout_data_d [NUM_PORT-1:0];
+logic pu_dutout_data_v [NUM_PORT-1:0];
+logic pu_dutout_data_r [NUM_PORT-1:0];
+logic [7:0] pu_dutout_flags_d [NUM_PORT-1:0];
+logic pu_dutout_flags_v [NUM_PORT-1:0];
+logic pu_dutout_flags_r [NUM_PORT-1:0];
+logic [PU_WIDTH-1:0] pu_dutout_eop_d [NUM_PORT-1:0];
+logic pu_dutout_eop_v [NUM_PORT-1:0];
+logic pu_dutout_eop_r [NUM_PORT-1:0];
+
+pktunit_rawsock_intf #(
+    .DATA_BYTES(PU_WIDTH),
+    .NUM_SOCK(NUM_PORT),
+    .PORT_NAMES($(TB_PORT_LIST))
+) purs_intf_inst (
+    .deinit(1'b0),
+    .*
+);
+
+$(TB_DUT_NAME) dut_inst (
+    .ap_clk(clk), .ap_rst_n(dutNrst),
+$(TB_DUT_PORT_CONN)
+);
+
+endmodule

@@ -1,0 +1,3 @@
+sv work ../testbed/pktunit_axis_feeder.sv
+sv work ../testbed/pktunit_axis_poller.sv
+sv work ../testbed/pktunit_rawsock_intf.sv

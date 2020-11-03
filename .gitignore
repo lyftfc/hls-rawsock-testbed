@@ -1,0 +1,10 @@
+/.vscode/
+/.Xil/
+/.hbs/
+/xsim.dir/
+/build/
+*.log
+*.jou
+*.pb
+*.wdb
+*.wcfg
